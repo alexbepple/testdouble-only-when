@@ -1,0 +1,7 @@
+{
+  "mocha.requires": [
+    "reify"
+  ],
+  "mocha.files.glob": "src/**/*.js",
+  "mocha.runTestsOnSave": "true",
+}
