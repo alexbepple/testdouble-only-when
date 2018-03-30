@@ -1,0 +1,4 @@
+--require reify
+--check-leaks
+--recursive
+src/
