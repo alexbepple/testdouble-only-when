@@ -2,3 +2,4 @@
 /.reify-cache/
 /temp/
 /dist/
+yarn-error.log
