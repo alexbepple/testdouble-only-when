@@ -2,8 +2,8 @@ import { assertThat, is, not, throws, typedError, instanceOf } from 'hamjest'
 import td from 'testdouble'
 import { onlyWhen } from './index'
 
-describe('Problem: this fails, but is hard to debug', () => {
-  it('fails not because of the wrong invocation, but because of the consequences of default stub behavior', () => {
+describe('Problem', () => {
+  it('unrehearsed usage fails late because of the consequences of default stub behavior', () => {
     const stub = td.function()
     td.when(stub(0)).thenReturn('foo')
 
@@ -18,10 +18,10 @@ describe('Solution', () => {
 
   before(() => onlyWhen(stub).calledWith(0).thenReturn(1))
 
-  it('fail early on unrehearsed invocation', () => {
+  it('fails early on unrehearsed usage', () => {
     assertThat(() => stub(), throws(not(instanceOf(TypeError))))
   })
-  it('succeed on rehearsed invocation', () => {
+  it('succeeds on rehearsed usage', () => {
     assertThat(stub(0), is(1))
   })
 })
