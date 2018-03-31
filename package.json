@@ -1,7 +1,16 @@
 {
   "name": "testdouble-only-when",
   "description": "Rehearse strict behavior with testdouble.js",
-  "keywords": ["tdd", "bdd", "mock", "stub", "spy", "test double", "testdouble", "sinon"],
+  "keywords": [
+    "tdd",
+    "bdd",
+    "mock",
+    "stub",
+    "spy",
+    "test double",
+    "testdouble",
+    "sinon"
+  ],
   "author": "Alex Bepple <alex@bepple.de> (http://alex.bepple.de)",
   "version": "0.0.1",
   "license": "MIT",
