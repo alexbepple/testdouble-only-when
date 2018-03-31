@@ -9,7 +9,9 @@ describe('Problem', () => {
 
     const fut = (collaborator) => collaborator().substring(1)
 
-    assertThat(() => fut(stub), throws(typedError(TypeError, "Cannot read property 'substring' of undefined")))
+    assertThat(
+      () => assertThat(fut(stub), is('oo')),
+      throws(typedError(TypeError, "Cannot read property 'substring' of undefined")))
   })
 })
 
