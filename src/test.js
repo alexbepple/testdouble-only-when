@@ -1,5 +1,6 @@
 import { assertThat, is, not, throws, typedError, instanceOf } from 'hamjest'
 import td from 'testdouble'
+import { onlyWhen } from './index'
 
 describe('Problem: this fails, but is hard to debug', () => {
   it('fails not because of the wrong invocation, but because of the consequences of default stub behavior', () => {
@@ -11,22 +12,6 @@ describe('Problem: this fails, but is hard to debug', () => {
     assertThat(() => fut(stub), throws(typedError(TypeError, "Cannot read property 'substring' of undefined")))
   })
 })
-
-const onlyWhen = (double) => {
-  const shadowDouble = td.function()
-  return {
-    calledWith: (...expectedParams) => ({
-      thenReturn: (...returnValues) => {
-        td.when(shadowDouble(...expectedParams)).thenReturn(...returnValues)
-        td.when(double(), { ignoreExtraArgs: true }).thenDo((...actualParams) => {
-          const fromShadow = shadowDouble(...actualParams)
-          if (fromShadow) return fromShadow
-          throw new Error('You invoked a test double in an unexpected fashion.')
-        })
-      }
-    })
-  }
-}
 
 describe('Solution', () => {
   const stub = td.function()
