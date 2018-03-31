@@ -3,7 +3,7 @@
   "description": "Rehearse strict behavior with testdouble.js",
   "author": "Alex Bepple <alex@bepple.de> (http://alex.bepple.de)",
   "version": "0.0.1",
-  "license": "tbd",
+  "license": "MIT",
   "repository": "https://github.com/alexbepple/testdouble-only-when",
   "main": "src/index.js",
   "scripts": {
