@@ -6,15 +6,20 @@
   "version": "0.0.1",
   "license": "MIT",
   "repository": "https://github.com/alexbepple/testdouble-only-when",
-  "main": "src/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
+    "build": "rollup src/index.js --format cjs --external testdouble --file dist/bundle.js",
     "test": "mocha --opts mocha.opts"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {},
   "devDependencies": {
     "hamjest": "^3.1.0",
     "mocha": "^5.0.0",
     "reify": "^0.13.7",
+    "rollup": "^0.57.1",
     "testdouble": "^3.6.0"
   },
   "peerDependencies": {
