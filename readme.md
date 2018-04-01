@@ -1,10 +1,10 @@
 # testdouble-only-when
-Rehearse strict behavior with testdouble.js
+Rehearse strict behavior with [testdouble.js](https://github.com/testdouble/testdouble.js)
 
 
 ## Usage
 
-Install ([testdouble](https://github.com/testdouble/testdouble.js) is a peer dependency):
+Install (_testdouble_ is a peer dependency):
 
 ```
 $ yarn install --dev testdouble testdouble-only-when
