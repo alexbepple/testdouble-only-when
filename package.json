@@ -1,7 +1,7 @@
 {
   "version": "0.1.0",
   "scripts": {
-    "build": "rollup src/index.js --format cjs --external testdouble --file dist/bundle.js",
+    "build": "rollup --config",
     "test": "mocha --opts mocha.opts"
   },
   "main": "dist/bundle.js",
