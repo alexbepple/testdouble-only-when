@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2",
+  "version": "0.1.0",
   "scripts": {
     "build": "rollup src/index.js --format cjs --external testdouble --file dist/bundle.js",
     "test": "mocha --opts mocha.opts"
