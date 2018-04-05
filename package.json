@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "build": "rollup --config",
     "test": "mocha --opts mocha.opts"
