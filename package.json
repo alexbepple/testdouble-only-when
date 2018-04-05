@@ -6,6 +6,7 @@
   },
   "main": "dist/bundle.js",
   "files": [
+    "readme.md",
     "dist"
   ],
   "dependencies": {},
