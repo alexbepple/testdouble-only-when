@@ -28,3 +28,13 @@ onlyWhen(stub(0)).thenReturn(true)
 stub(0)  // => true
 stub()   // => Error('You invoked a test double in an unexpected fashion.​​')
 ```
+
+
+## Backlog
+
+- [x] ~PoC with verbose API (`onlyWhen(stub).calledWith(0).thenReturn(true)`)~
+- [x] ~PoC with magic _testdouble_-like API (`onlyWhen(stub(0)).thenReturn`)~
+- [ ] improve error message and/or debugging facilities
+- [ ] :question: Do we need to support multiple calls?
+- [ ] thenThrows etc.
+- [ ] return stub for one-liners
