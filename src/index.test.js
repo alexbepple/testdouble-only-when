@@ -16,14 +16,27 @@ describe('Problem', () => {
 })
 
 describe('Solution', () => {
-  const stub = td.function()
+  describe('with legacy API (onlyWhen(stub).calledWith(…).thenReturn(…))', () => {
+    const stub = td.function()
+    before(() => onlyWhen(stub).calledWith(0).thenReturn(1))
 
-  before(() => onlyWhen(stub).calledWith(0).thenReturn(1))
-
-  it('fails early on unrehearsed usage', () => {
-    assertThat(() => stub(), throws(not(instanceOf(TypeError))))
+    it('fails early on unrehearsed usage', () => {
+      assertThat(() => stub(), throws(not(instanceOf(TypeError))))
+    })
+    it('succeeds on rehearsed usage', () => {
+      assertThat(stub(0), is(1))
+    })
   })
-  it('succeeds on rehearsed usage', () => {
-    assertThat(stub(0), is(1))
+
+  describe('with new API (onlyWhen(stub(…)).thenReturn(…))', () => {
+    const stub = td.function()
+    before(() => onlyWhen(stub(0)).thenReturn(1))
+
+    it('fails early on unrehearsed usage', () => {
+      assertThat(() => stub(), throws(not(instanceOf(TypeError))))
+    })
+    it('succeeds on rehearsed usage', () => {
+      assertThat(stub(0), is(1))
+    })
   })
 })
