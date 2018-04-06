@@ -26,8 +26,23 @@ const stub = td.function()
 onlyWhen(stub(0)).thenReturn(true)
 
 stub(0)  // => true
-stub()   // => Error('You invoked a test double in an unexpected fashion.​​')
+stub()   
+// => Error:
+// ​​You invoked a test double in an unexpected fashion.​​
+// ​​​​This test double has 1 stubbings and 2 invocations.​​
+​​​​
+// ​​​​Stubbings:​​
+// ​​​​  - when called with `(0)`, then return `true`.​​
+​​​​
+// ​​​​Invocations:​​
+// ​​​​  - called with `(0)`.​​
+// ​​​​  - called with `()`.​​
 ```
+
+### Supported stubbing facilities
+
+* `thenReturn`
+* `thenResolve`
 
 
 ## Backlog
