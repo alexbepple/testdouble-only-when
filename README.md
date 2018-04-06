@@ -34,7 +34,8 @@ stub()   // => Error('You invoked a test double in an unexpected fashion.​​'
 
 - [x] ~PoC with verbose API (`onlyWhen(stub).calledWith(0).thenReturn(true)`)~
 - [x] ~PoC with magic _testdouble_-like API (`onlyWhen(stub(0)).thenReturn`)~
-- [x] improve error message and/or debugging facilities
+- [x] ~improve error message and/or debugging facilities~
+- [x] ~thenResolve~
 - [ ] :question: Do we need to support multiple calls?
 - [ ] thenThrows etc.
 - [ ] return stub for one-liners

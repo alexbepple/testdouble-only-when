@@ -33,6 +33,18 @@ export const onlyWhen = (stubOrReturnValue) => {
         if (fromShadow) return fromShadow
         throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
       })
+    },
+
+    thenResolve: (...returnValues) => {
+      const stub = td.when().thenResolve(...returnValues)
+      const expectedParams = stubbings.for(stub)[0].args
+
+      td.when(shadowStub(...expectedParams)).thenResolve(...returnValues)
+      td.when(stub(), { ignoreExtraArgs: true }).thenDo((...actualParams) => {
+        const fromShadow = shadowStub(...actualParams)
+        if (fromShadow) return fromShadow
+        throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
+      })
     }
   }
 }
