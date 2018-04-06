@@ -31,7 +31,7 @@ export const onlyWhen = (stubOrReturnValue) => {
       td.when(stub(), { ignoreExtraArgs: true }).thenDo((...actualParams) => {
         const fromShadow = shadowStub(...actualParams)
         if (fromShadow) return fromShadow
-        throw new Error('You invoked a test double in an unexpected fashion.')
+        throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
       })
     }
   }

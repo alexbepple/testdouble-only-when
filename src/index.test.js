@@ -1,4 +1,4 @@
-import { assertThat, is, not, throws, typedError, instanceOf } from 'hamjest'
+import { assertThat, is, not, throws, typedError, instanceOf, containsString, allOf } from 'hamjest'
 import td from 'testdouble'
 import { onlyWhen } from './index'
 
@@ -32,8 +32,10 @@ describe('Solution', () => {
     const stub = td.function()
     before(() => onlyWhen(stub(0)).thenReturn(1))
 
-    it('fails early on unrehearsed usage', () => {
-      assertThat(() => stub(), throws(not(instanceOf(TypeError))))
+    it('fails early on unrehearsed usage and explains what happened', () => {
+      assertThat(() => stub(), throws(typedError(Error,
+        allOf(containsString('stubbing'), containsString('invocation'))
+      )))
     })
     it('succeeds on rehearsed usage', () => {
       assertThat(stub(0), is(1))
