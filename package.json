@@ -5,11 +5,11 @@
     "prebuild": "run-s clean",
     "build": "rollup --config",
     "test": "mocha --opts mocha.opts",
-    "prepare": "run-s build"
+    "prepublishOnly": "run-p --aggregate-output --print-name test build"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-p --aggregate-output test build"
+      "pre-commit": "run-s prepublishOnly"
     }
   },
   "main": "dist/bundle.js",
