@@ -17,34 +17,26 @@ const onlyWhenWithDouble = (double) => {
   }
 }
 
+const stubStrictly = (behaviorName) => (...returnValues) => {
+  const stub = td.when()[behaviorName](...returnValues)
+  const expectedParams = stubbings.for(stub)[0].args
+
+  const shadowStub = td.function()
+  td.when(shadowStub(...expectedParams))[behaviorName](...returnValues)
+
+  td.when(stub(), { ignoreExtraArgs: true }).thenDo((...actualParams) => {
+    const fromShadow = shadowStub(...actualParams)
+    if (fromShadow) return fromShadow
+    throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
+  })
+}
+
 export const onlyWhen = (stubOrReturnValue) => {
   if (td.explain(stubOrReturnValue).isTestDouble)
     return onlyWhenWithDouble(stubOrReturnValue)
 
-  const shadowStub = td.function()
   return {
-    thenReturn: (...returnValues) => {
-      const stub = td.when().thenReturn(...returnValues)
-      const expectedParams = stubbings.for(stub)[0].args
-
-      td.when(shadowStub(...expectedParams)).thenReturn(...returnValues)
-      td.when(stub(), { ignoreExtraArgs: true }).thenDo((...actualParams) => {
-        const fromShadow = shadowStub(...actualParams)
-        if (fromShadow) return fromShadow
-        throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
-      })
-    },
-
-    thenResolve: (...returnValues) => {
-      const stub = td.when().thenResolve(...returnValues)
-      const expectedParams = stubbings.for(stub)[0].args
-
-      td.when(shadowStub(...expectedParams)).thenResolve(...returnValues)
-      td.when(stub(), { ignoreExtraArgs: true }).thenDo((...actualParams) => {
-        const fromShadow = shadowStub(...actualParams)
-        if (fromShadow) return fromShadow
-        throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
-      })
-    }
+    thenReturn: stubStrictly('thenReturn'),
+    thenResolve: stubStrictly('thenResolve')
   }
 }
