@@ -2,6 +2,8 @@ import { assertThat, is, not, throws, typedError, instanceOf, containsString, al
 import td from 'testdouble'
 import { onlyWhen } from './index'
 
+beforeEach(td.reset)
+
 describe('Problem', () => {
   it('unrehearsed usage fails late because of the consequences of default stub behavior', () => {
     const stub = td.function()
@@ -17,8 +19,11 @@ describe('Problem', () => {
 
 describe('Solution', () => {
   describe('with legacy API (onlyWhen(stub).calledWith(…).thenReturn(…))', () => {
-    const stub = td.function()
-    before(() => onlyWhen(stub).calledWith(0).thenReturn(1))
+    let stub
+    beforeEach(() => {
+      stub = td.function()
+      onlyWhen(stub).calledWith(0).thenReturn(1)
+    })
 
     it('fails early on unrehearsed usage', () => {
       assertThat(() => stub(), throws(not(instanceOf(TypeError))))
@@ -31,7 +36,7 @@ describe('Solution', () => {
   describe('with new API: onlyWhen(stub(…))', () => {
     describe('.thenReturn(…)', () => {
       const stub = td.function()
-      before(() => onlyWhen(stub(0)).thenReturn(1))
+      beforeEach(() => onlyWhen(stub(0)).thenReturn(1))
 
       it('fails early on unrehearsed usage and explains what happened', () => {
         assertThat(() => stub(), throws(typedError(Error,
@@ -44,7 +49,7 @@ describe('Solution', () => {
     })
     describe('.thenResolve(…)', () => {
       const stub = td.function()
-      before(() => onlyWhen(stub(0)).thenResolve(1))
+      beforeEach(() => onlyWhen(stub(0)).thenResolve(1))
 
       it('fails early on unrehearsed usage', () => {
         assertThat(() => stub(), throws())
