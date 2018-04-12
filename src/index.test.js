@@ -17,46 +17,44 @@ describe('Problem', () => {
   })
 })
 
-describe('Solution', () => {
-  describe('with legacy API (onlyWhen(stub).calledWith(…).thenReturn(…))', () => {
-    let stub
-    beforeEach(() => {
-      stub = td.function()
-      onlyWhen(stub).calledWith(0).thenReturn(1)
-    })
+describe('Solution with legacy API (onlyWhen(stub).calledWith(…).thenReturn(…))', () => {
+  let stub
+  beforeEach(() => {
+    stub = td.function()
+    onlyWhen(stub).calledWith(0).thenReturn(1)
+  })
 
-    it('fails early on unrehearsed usage', () => {
-      assertThat(() => stub(), throws(not(instanceOf(TypeError))))
+  it('fails early on unrehearsed usage', () => {
+    assertThat(() => stub(), throws(not(instanceOf(TypeError))))
+  })
+  it('succeeds on rehearsed usage', () => {
+    assertThat(stub(0), is(1))
+  })
+})
+
+describe('Solution with new API: onlyWhen(stub(…))', () => {
+  describe('.thenReturn(…)', () => {
+    const stub = td.function()
+    beforeEach(() => onlyWhen(stub(0)).thenReturn(1))
+
+    it('fails early on unrehearsed usage and explains what happened', () => {
+      assertThat(() => stub(), throws(typedError(Error,
+        allOf(containsString('stubbing'), containsString('invocation'))
+      )))
     })
     it('succeeds on rehearsed usage', () => {
       assertThat(stub(0), is(1))
     })
   })
+  describe('.thenResolve(…)', () => {
+    const stub = td.function()
+    beforeEach(() => onlyWhen(stub(0)).thenResolve(1))
 
-  describe('with new API: onlyWhen(stub(…))', () => {
-    describe('.thenReturn(…)', () => {
-      const stub = td.function()
-      beforeEach(() => onlyWhen(stub(0)).thenReturn(1))
-
-      it('fails early on unrehearsed usage and explains what happened', () => {
-        assertThat(() => stub(), throws(typedError(Error,
-          allOf(containsString('stubbing'), containsString('invocation'))
-        )))
-      })
-      it('succeeds on rehearsed usage', () => {
-        assertThat(stub(0), is(1))
-      })
+    it('fails early on unrehearsed usage', () => {
+      assertThat(() => stub(), throws())
     })
-    describe('.thenResolve(…)', () => {
-      const stub = td.function()
-      beforeEach(() => onlyWhen(stub(0)).thenResolve(1))
-
-      it('fails early on unrehearsed usage', () => {
-        assertThat(() => stub(), throws())
-      })
-      it('succeeds on rehearsed usage', () => {
-        return promiseThat(stub(0), willBe(1))
-      })
+    it('succeeds on rehearsed usage', () => {
+      return promiseThat(stub(0), willBe(1))
     })
   })
 })
