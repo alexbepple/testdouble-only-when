@@ -40,3 +40,16 @@ export const onlyWhen = (stubOrReturnValue) => {
     thenResolve: stubStrictly('thenResolve')
   }
 }
+
+export const failOnOtherCalls = (stub) => {
+  const shadowStub = td.function()
+  stubbings.for(stub).forEach(stubbing => {
+    const { args, config, stubbedValues } = stubbing
+    td.when(shadowStub(...args))[config.plan](...stubbedValues)
+  })
+  td.when(stub(), { ignoreExtraArgs: true }).thenDo((...args) => {
+    const fromShadow = shadowStub(...args)
+    if (fromShadow) return fromShadow
+    throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
+  })
+}

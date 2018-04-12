@@ -1,6 +1,6 @@
 import { assertThat, is, not, throws, typedError, instanceOf, containsString, allOf, promiseThat, willBe } from 'hamjest'
 import td from 'testdouble'
-import { onlyWhen } from './index'
+import { onlyWhen, failOnOtherCalls } from './index'
 
 beforeEach(td.reset)
 
@@ -56,5 +56,21 @@ describe('Solution with new API: onlyWhen(stub(…))', () => {
     it('succeeds on rehearsed usage', () => {
       return promiseThat(stub(0), willBe(1))
     })
+  })
+})
+
+describe('Strict stub with multiple stubbings', () => {
+  const stub = td.function()
+  beforeEach(() => {
+    td.when(stub(0)).thenReturn(1)
+    td.when(stub(1)).thenReturn(2)
+    failOnOtherCalls(stub)
+  })
+  it('succeeds on all rehearsed usages', () => {
+    assertThat(stub(0), is(1))
+    assertThat(stub(1), is(2))
+  })
+  it('fails early on unrehearsed usage', () => {
+    assertThat(() => stub(), throws())
   })
 })

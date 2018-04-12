@@ -45,12 +45,21 @@ stub()
 * `thenResolve`
 
 
+### Multiple stubbings
+
+```javascript
+td.when(stub(0)).thenReturn(true)
+td.when(stub(1)).thenReturn(false)
+failOnOtherCalls(stub)
+```
+
+
 ## Backlog
 
 - [x] ~PoC with verbose API (`onlyWhen(stub).calledWith(0).thenReturn(true)`)~
 - [x] ~PoC with magic _testdouble_-like API (`onlyWhen(stub(0)).thenReturn`)~
 - [x] ~improve error message and/or debugging facilities~
 - [x] ~thenResolve~
-- [ ] :question: Do we need to support multiple calls?
+- [x] ~multiple stubbings~
 - [ ] thenThrows etc.
 - [ ] return stub for one-liners
