@@ -17,29 +17,6 @@ const onlyWhenWithDouble = (double) => {
   }
 }
 
-const stubStrictly = (behaviorName) => (...returnValues) => {
-  const stub = td.when()[behaviorName](...returnValues)
-  const expectedParams = stubbings.for(stub)[0].args
-
-  const shadowStub = td.function()
-  td.when(shadowStub(...expectedParams))[behaviorName](...returnValues)
-
-  td.when(stub(), { ignoreExtraArgs: true }).thenDo((...actualParams) => {
-    const fromShadow = shadowStub(...actualParams)
-    if (fromShadow) return fromShadow
-    throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
-  })
-}
-
-export const onlyWhen = (stubOrReturnValue) => {
-  if (td.explain(stubOrReturnValue).isTestDouble)
-    return onlyWhenWithDouble(stubOrReturnValue)
-
-  return {
-    thenReturn: stubStrictly('thenReturn'),
-    thenResolve: stubStrictly('thenResolve')
-  }
-}
 
 export const failOnOtherCalls = (stub) => {
   const shadowStub = td.function()
@@ -52,4 +29,19 @@ export const failOnOtherCalls = (stub) => {
     if (fromShadow) return fromShadow
     throw new Error('You invoked a test double in an unexpected fashion.\n' + td.explain(shadowStub).description)
   })
+}
+
+const stubStrictly = (behaviorName) => (...returnValues) => {
+  const stub = td.when()[behaviorName](...returnValues)
+  failOnOtherCalls(stub)
+}
+
+export const onlyWhen = (stubOrReturnValue) => {
+  if (td.explain(stubOrReturnValue).isTestDouble)
+    return onlyWhenWithDouble(stubOrReturnValue)
+
+  return {
+    thenReturn: stubStrictly('thenReturn'),
+    thenResolve: stubStrictly('thenResolve')
+  }
 }
