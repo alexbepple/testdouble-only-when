@@ -1,4 +1,15 @@
-import { assertThat, is, not, throws, typedError, instanceOf, containsString, allOf, promiseThat, willBe } from 'hamjest'
+import {
+  assertThat,
+  is,
+  not,
+  throws,
+  typedError,
+  instanceOf,
+  containsString,
+  allOf,
+  promiseThat,
+  willBe
+} from 'hamjest'
 import td from 'testdouble'
 import { onlyWhen, failOnOtherCalls } from './index'
 
@@ -13,7 +24,10 @@ describe('Problem', () => {
 
     assertThat(
       () => assertThat(fut(stub), is('oo')),
-      throws(typedError(TypeError, "Cannot read property 'substring' of undefined")))
+      throws(
+        typedError(TypeError, "Cannot read property 'substring' of undefined")
+      )
+    )
   })
 })
 
@@ -21,7 +35,9 @@ describe('Solution with legacy API (onlyWhen(stub).calledWith(…).thenReturn(�
   let stub
   beforeEach(() => {
     stub = td.function()
-    onlyWhen(stub).calledWith(0).thenReturn(1)
+    onlyWhen(stub)
+      .calledWith(0)
+      .thenReturn(1)
   })
 
   it('fails early on unrehearsed usage', () => {
@@ -38,9 +54,15 @@ describe('Solution with new API: onlyWhen(stub(…))', () => {
     beforeEach(() => onlyWhen(stub(0)).thenReturn(1))
 
     it('fails early on unrehearsed usage and explains what happened', () => {
-      assertThat(() => stub(), throws(typedError(Error,
-        allOf(containsString('stubbing'), containsString('invocation'))
-      )))
+      assertThat(
+        () => stub(),
+        throws(
+          typedError(
+            Error,
+            allOf(containsString('stubbing'), containsString('invocation'))
+          )
+        )
+      )
     })
     it('succeeds on rehearsed usage', () => {
       assertThat(stub(0), is(1))
