@@ -74,6 +74,9 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
       const stub = onlyWhen(td.function()(0)).thenReturn(1)
       stub(0)
     })
+    it('can return 0', () => {
+      onlyWhen(td.function()()).thenReturn(0)()
+    })
   })
 
   describe('.thenResolve(…)', () => {

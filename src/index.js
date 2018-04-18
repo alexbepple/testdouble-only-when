@@ -29,7 +29,7 @@ export const failOnOtherCalls = (stub) => {
   })
   td.when(stub(), { ignoreExtraArgs: true }).thenDo((...args) => {
     const fromShadow = shadowStub(...args)
-    if (fromShadow) return fromShadow
+    if (typeof fromShadow != 'undefined') return fromShadow
     throw new Error(
       'You invoked a test double in an unexpected fashion.\n' +
         td.explain(shadowStub).description
