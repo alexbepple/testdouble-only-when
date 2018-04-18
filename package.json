@@ -9,7 +9,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s prepublishOnly"
+      "pre-commit": "run-s prepublishOnly && lint-staged"
     }
   },
   "main": "dist/bundle.js",
@@ -20,6 +20,7 @@
   "devDependencies": {
     "hamjest": "^3.1.0",
     "husky": "^1.0.0-rc.1",
+    "lint-staged": "^7.0.4",
     "mocha": "^5.0.0",
     "npm-run-all": "^4.1.2",
     "prettier": "1.12.1",
