@@ -69,6 +69,13 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     })
   })
 
+  describe('.thenReturn(…)', () => {
+    it('returns the stub itself for one-line stubbings', () => {
+      const stub = onlyWhen(td.function()(0)).thenReturn(1)
+      stub(0)
+    })
+  })
+
   describe('.thenResolve(…)', () => {
     const stub = td.function()
     beforeEach(() => onlyWhen(stub(0)).thenResolve(1))
@@ -79,11 +86,6 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     it('succeeds on rehearsed usage', () => {
       return promiseThat(stub(0), willBe(1))
     })
-  })
-
-  it('thenX methods return the stub itself for one-line stubbings', () => {
-    const stub = onlyWhen(td.function()(0)).thenReturn(1)
-    stub(0)
   })
 })
 
