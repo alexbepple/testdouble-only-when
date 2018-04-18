@@ -57,10 +57,10 @@ failOnOtherCalls(stub)
 
 ## Backlog
 
-- [x] ~PoC with verbose API (`onlyWhen(stub).calledWith(0).thenReturn(true)`)~
-- [x] ~PoC with magic _testdouble_-like API (`onlyWhen(stub(0)).thenReturn`)~
-- [x] ~improve error message and/or debugging facilities~
-- [x] ~thenResolve~
-- [x] ~multiple stubbings~
+- [x] ~~PoC with verbose API (`onlyWhen(stub).calledWith(0).thenReturn(true)`)~~
+- [x] ~~PoC with magic _testdouble_-like API (`onlyWhen(stub(0)).thenReturn`)~~
+- [x] ~~improve error message and/or debugging facilities~~
+- [x] ~~thenResolve~~
+- [x] ~~multiple stubbings~~
 - [ ] thenThrows etc.
 - [ ] return stub for one-liners
