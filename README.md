@@ -1,4 +1,5 @@
 [![npm version](https://img.shields.io/npm/v/testdouble-only-when.svg)](https://www.npmjs.com/package/testdouble-only-when)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # testdouble-only-when
 Rehearse strict behavior with [testdouble.js](https://github.com/testdouble/testdouble.js)
