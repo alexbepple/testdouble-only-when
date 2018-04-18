@@ -40,6 +40,7 @@ export const failOnOtherCalls = (stub) => {
 const stubStrictly = (behaviorName) => (...returnValues) => {
   const stub = td.when()[behaviorName](...returnValues)
   failOnOtherCalls(stub)
+  return stub
 }
 
 export const onlyWhen = (stubOrReturnValue) => {

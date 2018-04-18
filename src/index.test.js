@@ -31,7 +31,7 @@ describe('Problem', () => {
   })
 })
 
-describe('Solution with legacy API (onlyWhen(stub).calledWith(…).thenReturn(…))', () => {
+describe('Legacy API: onlyWhen(stub).calledWith(…).thenReturn(…)', () => {
   let stub
   beforeEach(() => {
     stub = td.function()
@@ -48,7 +48,7 @@ describe('Solution with legacy API (onlyWhen(stub).calledWith(…).thenReturn(�
   })
 })
 
-describe('Solution with new API: onlyWhen(stub(…))', () => {
+describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
   describe('.thenReturn(…)', () => {
     const stub = td.function()
     beforeEach(() => onlyWhen(stub(0)).thenReturn(1))
@@ -68,6 +68,7 @@ describe('Solution with new API: onlyWhen(stub(…))', () => {
       assertThat(stub(0), is(1))
     })
   })
+
   describe('.thenResolve(…)', () => {
     const stub = td.function()
     beforeEach(() => onlyWhen(stub(0)).thenResolve(1))
@@ -78,6 +79,11 @@ describe('Solution with new API: onlyWhen(stub(…))', () => {
     it('succeeds on rehearsed usage', () => {
       return promiseThat(stub(0), willBe(1))
     })
+  })
+
+  it('thenX methods return the stub itself for one-line stubbings', () => {
+    const stub = onlyWhen(td.function()(0)).thenReturn(1)
+    stub(0)
   })
 })
 

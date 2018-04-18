@@ -62,5 +62,5 @@ failOnOtherCalls(stub)
 - [x] ~~improve error message and/or debugging facilities~~
 - [x] ~~thenResolve~~
 - [x] ~~multiple stubbings~~
+- [x] ~~return stub for one-liners~~
 - [ ] thenThrows etc.
-- [ ] return stub for one-liners
