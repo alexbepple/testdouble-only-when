@@ -21,15 +21,20 @@ const onlyWhenWithDouble = (double) => {
   }
 }
 
+const symbolForUndefined = Symbol('for undefined')
+const wrapStubbingValue = (x) => (x === undefined ? symbolForUndefined : x)
+const unwrapStubbingValue = (x) => (x === symbolForUndefined ? undefined : x)
+
 export const failOnOtherCalls = (stub) => {
   const shadowStub = td.function()
   stubbings.for(stub).forEach((stubbing) => {
     const { args, config, stubbedValues } = stubbing
-    td.when(shadowStub(...args))[config.plan](...stubbedValues)
+    const effectiveStubbedValues = stubbedValues.map(wrapStubbingValue)
+    td.when(shadowStub(...args))[config.plan](...effectiveStubbedValues)
   })
   td.when(stub(), { ignoreExtraArgs: true }).thenDo((...args) => {
     const fromShadow = shadowStub(...args)
-    if (typeof fromShadow != 'undefined') return fromShadow
+    if (typeof fromShadow != 'undefined') return unwrapStubbingValue(fromShadow)
     throw new Error(
       'You invoked a test double in an unexpected fashion.\n' +
         td.explain(shadowStub).description
