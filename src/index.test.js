@@ -113,6 +113,11 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
       assertThat(stub(1), is(0))
       assertThat(() => stub(2), throws())
     })
+    it('allow multiple stubbed values', () => {
+      const stub = onlyWhen(td.function()()).thenReturn(0, 1)
+      assertThat(stub(), is(0))
+      assertThat(stub(), is(1))
+    })
   })
 })
 
