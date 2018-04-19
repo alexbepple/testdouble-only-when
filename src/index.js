@@ -32,7 +32,11 @@ export const failOnOtherCalls = (stub) => {
     const effectiveStubbedValues = stubbedValues.map(wrapIfUndefined)
     td.when(shadowStub(...args), config)[config.plan](...effectiveStubbedValues)
   })
-  td.when(stub(), { ignoreExtraArgs: true }).thenDo((...args) => {
+  try {
+    // try-catch this for stubs that throw immediately
+    stub()
+  } catch (e) {}
+  td.when(undefined, { ignoreExtraArgs: true }).thenDo((...args) => {
     try {
       const fromShadow = shadowStub(...args)
       if (typeof fromShadow != 'undefined') return unwrapIfUndefined(fromShadow)

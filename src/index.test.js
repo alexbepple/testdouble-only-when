@@ -87,15 +87,25 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     })
   })
 
-  describe('.thenThrow(stub(0))', () => {
-    const stub = td.function()
-    beforeEach(() => onlyWhen(stub(0)).thenThrow(new Error('foo')))
+  describe('.thenThrow(…)', () => {
+    describe('.thenThrow(stub(0))', () => {
+      const stub = td.function()
+      beforeEach(() => onlyWhen(stub(0)).thenThrow(new Error('foo')))
 
-    it('fails on unrehearsed usage', () => {
-      assertThat(() => stub(), throws(errorOnUnrehearsedUsage))
+      it('fails on unrehearsed usage', () => {
+        assertThat(() => stub(), throws(errorOnUnrehearsedUsage))
+      })
+      it('succeeds on rehearsed usage', () => {
+        assertThat(() => stub(0), throws(typedError(Error, 'foo')))
+      })
     })
-    it('succeeds on rehearsed usage', () => {
-      assertThat(() => stub(0), throws(typedError(Error, 'foo')))
+
+    describe('.thenThrow(stub())', () => {
+      it('succeeds on rehearsed usage', () => {
+        const stub = td.function()
+        onlyWhen(stub()).thenThrow(new Error('foo'))
+        assertThat(() => stub(), throws(typedError(Error, 'foo')))
+      })
     })
   })
 
