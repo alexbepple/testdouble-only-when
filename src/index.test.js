@@ -50,7 +50,7 @@ describe('Legacy API: onlyWhen(stub).calledWith(…).thenReturn(…)', () => {
 })
 
 describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
-  it('supports same stubbing behaviors as td.when(…)', () => {
+  xit('supports same stubbing behaviors as td.when(…)', () => {
     const stub = td.function()
     assertThat(
       Object.getOwnPropertyNames(onlyWhen(stub())),
