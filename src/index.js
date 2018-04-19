@@ -56,15 +56,21 @@ const stubStrictly = (behaviorName, options) => (...returnValues) => {
   return stub
 }
 
+const stubbingBehaviors = [
+  'thenReturn',
+  'thenThrow',
+  'thenResolve',
+  'thenDo',
+  'thenReject'
+]
+
 export const onlyWhen = (stubOrReturnValue, options) => {
   if (td.explain(stubOrReturnValue).isTestDouble)
     return onlyWhenWithDouble(stubOrReturnValue)
 
-  return {
-    thenReturn: stubStrictly('thenReturn', options),
-    thenThrow: stubStrictly('thenThrow', options),
-    thenResolve: stubStrictly('thenResolve', options),
-    thenDo: stubStrictly('thenDo', options),
-    thenReject: stubStrictly('thenReject', options)
+  const addBehavior = (result, behavior) => {
+    result[behavior] = stubStrictly(behavior, options)
+    return result
   }
+  return stubbingBehaviors.reduce(addBehavior, {})
 }
