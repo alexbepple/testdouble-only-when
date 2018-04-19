@@ -120,7 +120,7 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     it('fails on unrehearsed usage', () => {
       assertThat(() => stub(0), throws())
     })
-    xit('succeeds on rehearsed usage', () => {
+    it('succeeds on rehearsed usage', () => {
       const cb = td.function()
       stub(cb)
       td.verify(cb('err', 'data'))
