@@ -81,6 +81,12 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
       const stub = onlyWhen(td.function()()).thenReturn(undefined)
       assertThat(stub(), is(undefined))
     })
+    it('passes options to testdouble.js', () => {
+      const stub = td.function()
+      onlyWhen(stub(0), { ignoreExtraArgs: true }).thenReturn(1)
+      assertThat(stub(0, 0), is(1))
+      assertThat(() => stub(1, 0), throws())
+    })
   })
 
   describe('.thenResolve(…)', () => {

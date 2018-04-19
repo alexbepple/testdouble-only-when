@@ -40,6 +40,19 @@ stub()
 // ​​​​  - called with `()`.​​
 ```
 
+### Options
+
+You can pass options like with `td.when`:
+
+```javascript
+const stub = td.function()
+onlyWhen(stub(0), { ignoreExtraArgs: true }).thenReturn(true)
+
+stub(0, 0)  // => true
+stub(1)     // => Error
+```
+
+
 ### Supported stubbing facilities
 
 * `thenReturn`

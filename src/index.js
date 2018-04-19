@@ -30,7 +30,7 @@ export const failOnOtherCalls = (stub) => {
   stubbings.for(stub).forEach((stubbing) => {
     const { args, config, stubbedValues } = stubbing
     const effectiveStubbedValues = stubbedValues.map(wrapIfUndefined)
-    td.when(shadowStub(...args))[config.plan](...effectiveStubbedValues)
+    td.when(shadowStub(...args), config)[config.plan](...effectiveStubbedValues)
   })
   td.when(stub(), { ignoreExtraArgs: true }).thenDo((...args) => {
     const fromShadow = shadowStub(...args)
@@ -42,18 +42,18 @@ export const failOnOtherCalls = (stub) => {
   })
 }
 
-const stubStrictly = (behaviorName) => (...returnValues) => {
-  const stub = td.when()[behaviorName](...returnValues)
+const stubStrictly = (behaviorName, options) => (...returnValues) => {
+  const stub = td.when(undefined, options)[behaviorName](...returnValues)
   failOnOtherCalls(stub)
   return stub
 }
 
-export const onlyWhen = (stubOrReturnValue) => {
+export const onlyWhen = (stubOrReturnValue, options) => {
   if (td.explain(stubOrReturnValue).isTestDouble)
     return onlyWhenWithDouble(stubOrReturnValue)
 
   return {
-    thenReturn: stubStrictly('thenReturn'),
-    thenResolve: stubStrictly('thenResolve')
+    thenReturn: stubStrictly('thenReturn', options),
+    thenResolve: stubStrictly('thenResolve', options)
   }
 }
