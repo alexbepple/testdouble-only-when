@@ -2,7 +2,8 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # testdouble-only-when
-Rehearse strict behavior with [testdouble.js](https://github.com/testdouble/testdouble.js)
+Rehearse strict behavior with [testdouble.js](https://github.com/testdouble/testdouble.js).  
+Almost a drop-in replacement for `td.when`.
 
 
 ## Usage
@@ -40,6 +41,17 @@ stub()
 // ​​​​  - called with `()`.​​
 ```
 
+## Features
+
+`onlyWhen` is almost a drop-in replacement for `td.when`. To my knowledge, the only exception are [multiple stubbings](#multiple-stubbings).
+
+* All stubbing behaviors are supported: `thenReturn`, `thenThrow`, `thenResolve`, `thenReject`, `thenDo`, `thenCallback`.
+* Options, e.g. `ignoreExtraArgs`
+* One-liner stubbings: `onlyWhen(td.func()(0)).thenReturn(true)`
+* Argument matchers: `onlyWhen(td.func()(td.matchers.anything())).thenReturn(true)`
+* Sequential return values: `onlyWhen(td.func()(0)).thenReturn(true, false)`
+
+
 ### Options
 
 You can pass options like with `td.when`:
@@ -49,6 +61,7 @@ const stub = td.function()
 onlyWhen(stub(0), { ignoreExtraArgs: true }).thenReturn(true)
 
 stub(0, 0)  // => true
+stub(0, 1)  // => true
 stub(1)     // => Error
 ```
 
