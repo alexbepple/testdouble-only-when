@@ -32,23 +32,6 @@ describe('Problem', () => {
   })
 })
 
-describe('Legacy API: onlyWhen(stub).calledWith(…).thenReturn(…)', () => {
-  let stub
-  beforeEach(() => {
-    stub = td.function()
-    onlyWhen(stub)
-      .calledWith(0)
-      .thenReturn(1)
-  })
-
-  it('fails early on unrehearsed usage', () => {
-    assertThat(() => stub(), throws(not(instanceOf(TypeError))))
-  })
-  it('succeeds on rehearsed usage', () => {
-    assertThat(stub(0), is(1))
-  })
-})
-
 const errorOnUnrehearsedUsage = typedError(
   Error,
   allOf(containsString('stubbing'), containsString('invocation'))

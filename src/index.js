@@ -1,26 +1,6 @@
 import td from 'testdouble'
 import stubbings from 'testdouble/lib/store/stubbings'
 
-const onlyWhenWithDouble = (double) => {
-  const shadowDouble = td.function()
-  return {
-    calledWith: (...expectedParams) => ({
-      thenReturn: (...returnValues) => {
-        td.when(shadowDouble(...expectedParams)).thenReturn(...returnValues)
-        td
-          .when(double(), { ignoreExtraArgs: true })
-          .thenDo((...actualParams) => {
-            const fromShadow = shadowDouble(...actualParams)
-            if (fromShadow) return fromShadow
-            throw new Error(
-              'You invoked a test double in an unexpected fashion.'
-            )
-          })
-      }
-    })
-  }
-}
-
 const countCallsToStubbings = (stub) =>
   stubbings
     .for(stub)
@@ -64,10 +44,7 @@ const stubbingBehaviors = [
   'thenCallback'
 ]
 
-export const onlyWhen = (stubOrReturnValue, options) => {
-  if (td.explain(stubOrReturnValue).isTestDouble)
-    return onlyWhenWithDouble(stubOrReturnValue)
-
+export const onlyWhen = (__returnValueOfCallToStub, options) => {
   const addBehavior = (result, behavior) => {
     result[behavior] = stubStrictly(behavior, options)
     return result

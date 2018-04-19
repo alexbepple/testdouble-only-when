@@ -2,6 +2,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # testdouble-only-when
+
 Rehearse strict behavior with [testdouble.js](https://github.com/testdouble/testdouble.js).  
 Almost a drop-in replacement for `td.when`.
 
@@ -72,13 +73,3 @@ td.when(stub(0)).thenReturn(true)
 td.when(stub(1)).thenReturn(false)
 failOnOtherCalls(stub)
 ```
-
-
-## Backlog
-
-- [x] ~~PoC with verbose API (`onlyWhen(stub).calledWith(0).thenReturn(true)`)~~
-- [x] ~~PoC with magic _testdouble_-like API (`onlyWhen(stub(0)).thenReturn`)~~
-- [x] ~~improve error message and/or debugging facilities~~
-- [x] ~~thenResolve, thenThrows etc.~~
-- [x] ~~multiple stubbings~~
-- [x] ~~return stub for one-liners~~
