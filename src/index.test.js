@@ -69,6 +69,18 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     })
   })
 
+  describe('.thenResolve(…)', () => {
+    const stub = td.function()
+    beforeEach(() => onlyWhen(stub(0)).thenResolve(1))
+
+    it('fails early on unrehearsed usage', () => {
+      assertThat(() => stub(), throws())
+    })
+    it('succeeds on rehearsed usage', () => {
+      return promiseThat(stub(0), willBe(1))
+    })
+  })
+
   describe('.thenReturn(…) and all other behaviors', () => {
     it('return the stub itself for one-line stubbings', () => {
       const stub = onlyWhen(td.function()(0)).thenReturn(1)
@@ -100,18 +112,6 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
       onlyWhen(stub(td.matchers.argThat((x) => x < 2))).thenReturn(0)
       assertThat(stub(1), is(0))
       assertThat(() => stub(2), throws())
-    })
-  })
-
-  describe('.thenResolve(…)', () => {
-    const stub = td.function()
-    beforeEach(() => onlyWhen(stub(0)).thenResolve(1))
-
-    it('fails early on unrehearsed usage', () => {
-      assertThat(() => stub(), throws())
-    })
-    it('succeeds on rehearsed usage', () => {
-      return promiseThat(stub(0), willBe(1))
     })
   })
 })
