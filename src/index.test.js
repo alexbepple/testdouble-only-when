@@ -8,7 +8,8 @@ import {
   containsString,
   allOf,
   promiseThat,
-  willBe
+  willBe,
+  containsInAnyOrder
 } from 'hamjest'
 import td from 'testdouble'
 import { onlyWhen, failOnOtherCalls } from './index'
@@ -49,6 +50,14 @@ describe('Legacy API: onlyWhen(stub).calledWith(…).thenReturn(…)', () => {
 })
 
 describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
+  it('supports same stubbing behaviors as td.when(…)', () => {
+    const stub = td.function()
+    assertThat(
+      Object.getOwnPropertyNames(onlyWhen(stub())),
+      containsInAnyOrder(...Object.getOwnPropertyNames(td.when(stub())))
+    )
+  })
+
   describe('.thenReturn(…)', () => {
     const stub = td.function()
     beforeEach(() => onlyWhen(stub(0)).thenReturn(1))

@@ -54,6 +54,10 @@ export const onlyWhen = (stubOrReturnValue, options) => {
 
   return {
     thenReturn: stubStrictly('thenReturn', options),
-    thenResolve: stubStrictly('thenResolve', options)
+    thenResolve: stubStrictly('thenResolve', options),
+    thenCallback: stubStrictly('thenCallback', options),
+    thenDo: stubStrictly('thenDo', options),
+    thenThrow: stubStrictly('thenThrow', options),
+    thenReject: stubStrictly('thenReject', options)
   }
 }

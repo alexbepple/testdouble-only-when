@@ -52,13 +52,6 @@ stub(0, 0)  // => true
 stub(1)     // => Error
 ```
 
-
-### Supported stubbing facilities
-
-* `thenReturn`
-* `thenResolve`
-
-
 ### Multiple stubbings
 
 ```javascript
@@ -73,7 +66,6 @@ failOnOtherCalls(stub)
 - [x] ~~PoC with verbose API (`onlyWhen(stub).calledWith(0).thenReturn(true)`)~~
 - [x] ~~PoC with magic _testdouble_-like API (`onlyWhen(stub(0)).thenReturn`)~~
 - [x] ~~improve error message and/or debugging facilities~~
-- [x] ~~thenResolve~~
+- [x] ~~thenResolve, thenThrows etc.~~
 - [x] ~~multiple stubbings~~
 - [x] ~~return stub for one-liners~~
-- [ ] thenThrows etc.
