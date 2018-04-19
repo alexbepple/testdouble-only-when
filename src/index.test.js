@@ -49,6 +49,11 @@ describe('Legacy API: onlyWhen(stub).calledWith(…).thenReturn(…)', () => {
   })
 })
 
+const errorOnUnrehearsedUsage = typedError(
+  Error,
+  allOf(containsString('stubbing'), containsString('invocation'))
+)
+
 describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
   xit('supports same stubbing behaviors as td.when(…)', () => {
     const stub = td.function()
@@ -63,15 +68,7 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     beforeEach(() => onlyWhen(stub(0)).thenReturn(1))
 
     it('fails early on unrehearsed usage and explains what happened', () => {
-      assertThat(
-        () => stub(),
-        throws(
-          typedError(
-            Error,
-            allOf(containsString('stubbing'), containsString('invocation'))
-          )
-        )
-      )
+      assertThat(() => stub(), throws(errorOnUnrehearsedUsage))
     })
     it('succeeds on rehearsed usage', () => {
       assertThat(stub(0), is(1))
@@ -87,6 +84,18 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     })
     it('succeeds on rehearsed usage', () => {
       return promiseThat(stub(0), willBe(1))
+    })
+  })
+
+  describe('.thenThrow(stub(0))', () => {
+    const stub = td.function()
+    beforeEach(() => onlyWhen(stub(0)).thenThrow(new Error('foo')))
+
+    it('fails on unrehearsed usage', () => {
+      assertThat(() => stub(), throws(errorOnUnrehearsedUsage))
+    })
+    it('succeeds on rehearsed usage', () => {
+      assertThat(() => stub(0), throws(typedError(Error, 'foo')))
     })
   })
 

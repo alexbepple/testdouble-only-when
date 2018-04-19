@@ -33,8 +33,12 @@ export const failOnOtherCalls = (stub) => {
     td.when(shadowStub(...args), config)[config.plan](...effectiveStubbedValues)
   })
   td.when(stub(), { ignoreExtraArgs: true }).thenDo((...args) => {
-    const fromShadow = shadowStub(...args)
-    if (typeof fromShadow != 'undefined') return unwrapIfUndefined(fromShadow)
+    try {
+      const fromShadow = shadowStub(...args)
+      if (typeof fromShadow != 'undefined') return unwrapIfUndefined(fromShadow)
+    } catch (e) {
+      throw e
+    }
     throw new Error(
       'You invoked a test double in an unexpected fashion.\n' +
         td.explain(shadowStub).description
@@ -54,6 +58,7 @@ export const onlyWhen = (stubOrReturnValue, options) => {
 
   return {
     thenReturn: stubStrictly('thenReturn', options),
+    thenThrow: stubStrictly('thenThrow', options),
     thenResolve: stubStrictly('thenResolve', options),
     thenDo: stubStrictly('thenDo', options),
     thenReject: stubStrictly('thenReject', options)
