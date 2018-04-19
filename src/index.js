@@ -57,7 +57,8 @@ const stubbingBehaviors = [
   'thenThrow',
   'thenResolve',
   'thenDo',
-  'thenReject'
+  'thenReject',
+  'thenCallback'
 ]
 
 export const onlyWhen = (stubOrReturnValue, options) => {

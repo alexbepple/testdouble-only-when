@@ -113,6 +113,20 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     })
   })
 
+  describe('.thenCallback(…)', () => {
+    const stub = td.function()
+    beforeEach(() => onlyWhen(stub()).thenCallback('err', 'data'))
+
+    it('fails on unrehearsed usage', () => {
+      assertThat(() => stub(0), throws())
+    })
+    xit('succeeds on rehearsed usage', () => {
+      const cb = td.function()
+      stub(cb)
+      td.verify(cb('err', 'data'))
+    })
+  })
+
   describe('.thenReturn(…) and all other behaviors', () => {
     it('return the stub itself for one-line stubbings', () => {
       const stub = onlyWhen(td.function()(0)).thenReturn(1)
