@@ -69,8 +69,8 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     })
   })
 
-  describe('.thenReturn(…)', () => {
-    it('returns the stub itself for one-line stubbings', () => {
+  describe('.thenReturn(…) and all other behaviors', () => {
+    it('return the stub itself for one-line stubbings', () => {
       const stub = onlyWhen(td.function()(0)).thenReturn(1)
       stub(0)
     })
@@ -81,7 +81,7 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
       const stub = onlyWhen(td.function()()).thenReturn(undefined)
       assertThat(stub(), is(undefined))
     })
-    describe('passes options to testdouble.js', () => {
+    describe('pass options to testdouble.js', () => {
       it('ignoreExtraArgs', () => {
         const stub = td.function()
         onlyWhen(stub(0), { ignoreExtraArgs: true }).thenReturn(1)
@@ -94,6 +94,12 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
         assertThat(stub(), is(0))
         assertThat(() => stub(), throws())
       })
+    })
+    it('allow for matchers', () => {
+      const stub = td.function()
+      onlyWhen(stub(td.matchers.argThat((x) => x < 2))).thenReturn(0)
+      assertThat(stub(1), is(0))
+      assertThat(() => stub(2), throws())
     })
   })
 
