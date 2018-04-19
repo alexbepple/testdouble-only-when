@@ -101,9 +101,13 @@ describe('Strict stub with one stubbing: onlyWhen(stub(…))', () => {
     })
 
     describe('.thenThrow(stub())', () => {
+      const stub = td.function()
+      beforeEach(() => onlyWhen(stub()).thenThrow(new Error('foo')))
+
+      it('fails on unrehearsed usage', () => {
+        assertThat(() => stub(0), throws(errorOnUnrehearsedUsage))
+      })
       it('succeeds on rehearsed usage', () => {
-        const stub = td.function()
-        onlyWhen(stub()).thenThrow(new Error('foo'))
         assertThat(() => stub(), throws(typedError(Error, 'foo')))
       })
     })

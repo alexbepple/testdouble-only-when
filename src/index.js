@@ -37,12 +37,8 @@ export const failOnOtherCalls = (stub) => {
     stub()
   } catch (e) {}
   td.when(undefined, { ignoreExtraArgs: true }).thenDo((...args) => {
-    try {
-      const fromShadow = shadowStub(...args)
-      if (typeof fromShadow != 'undefined') return unwrapIfUndefined(fromShadow)
-    } catch (e) {
-      throw e
-    }
+    const fromShadow = shadowStub(...args)
+    if (typeof fromShadow != 'undefined') return unwrapIfUndefined(fromShadow)
     throw new Error(
       'You invoked a test double in an unexpected fashion.\n' +
         td.explain(shadowStub).description
