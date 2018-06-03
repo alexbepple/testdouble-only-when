@@ -8,4 +8,4 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* **docs:** add link to thorough intro do strict stubs ([2161d10](https://github.com/alexbepple/testdouble-only-when/commit/2161d10))
+* **docs:** add link to thorough intro to strict stubs ([2161d10](https://github.com/alexbepple/testdouble-only-when/commit/2161d10))
