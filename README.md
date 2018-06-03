@@ -6,6 +6,8 @@
 Rehearse strict behavior with [testdouble.js](https://github.com/testdouble/testdouble.js).  
 Almost a drop-in replacement for `td.when`.
 
+Read [this](https://medium.com/@alexbepple/strict-stubs-for-better-dev-experience-bb455f733753) for a thorough motivation of stricter stubs and this helper.
+
 
 ## Usage
 
